@@ -1,10 +1,17 @@
-package ultimateleague;
+package ultimateleague.view;
 
 import net.miginfocom.swing.MigLayout;
+import quick.dbtable.DBTable;
+import ultimateleague.Constants;
 import ultimateleague.controller.DatabaseController;
+import ultimateleague.model.Player;
 
 import javax.swing.*;
-import javax.swing.table.TableModel;
+import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.Vector;
 
 
 /**
@@ -12,15 +19,22 @@ import javax.swing.table.TableModel;
  */
 public class PlayerPane extends JPanel {
     private JLabel mLabelHeader;
-    private JTable mTable;
+    private JScrollPane mScrollPane;
+    private DBTable mTable;
 
     public PlayerPane(DatabaseController databaseController, Constants constants){
-        this.setLayout(new MigLayout());
-        mLabelHeader = new JLabel(constants.LABEL_HEADER);
-        this.add(mLabelHeader, "wrap");
-        mTable = new JTable();
-
-        this.add(mTable, "span 4 4 wrap");
+        this.setLayout(new MigLayout("fill"));
+        mLabelHeader = new JLabel(constants.PLAYER_HEADER);
+        this.add(mLabelHeader, "span");
+        mScrollPane = new JScrollPane();
+        ResultSet resultSet = databaseController.getResults("SELECT * FROM Players");
+        mTable = new DBTable();
+        try {
+            mTable.refresh(resultSet);
+        } catch (SQLException ex) {
+            /* Do Something meaningful */
+        }
+        this.add(mTable, "push 50");
     }
 
 }

@@ -1,6 +1,9 @@
 package ultimateleague;
 
-import ultimateleague.controller.DatabaseController;
+import net.miginfocom.swing.MigLayout;
+import sun.management.snmp.jvminstr.JvmMemGCEntryImpl;
+import ultimateleague.controller.*;
+import ultimateleague.view.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,57 +18,93 @@ public class Frame extends JFrame {
     private JPanel mPanelWest;
     private JPanel mPanelSouth;
     private JPanel mPanelCenter;
-    private JMenu mMenu;
-    private JButton mButtonHome;
-    private JButton mButtonPlayers;
-    private JButton mButtonReports;
     private DatabaseController mDatabaseController;
+
 
 
 
     public Frame(){
         mConstants = new Constants();
         this.setTitle(mConstants.TITLE_FRAME);
-        this.setLayout(new BorderLayout());
+        this.setLayout(new MigLayout("debug, nocache, hidemode 3"));
+        mDatabaseController = new DatabaseController();;
         mPanelCenter = new HomePane();
-        this.add(mPanelCenter, BorderLayout.CENTER);
-        mDatabaseController = new DatabaseController();
         initEast();
+        initMenu();
+        this.add(mPanelCenter, "span");
+    }
+
+    private void initMenu(){
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        JMenu editMenu = new JMenu("Edit");
+        JMenu helpMenu = new JMenu("Help");
+
+        JMenuItem exitItem = new JMenuItem("Exit");
+        JMenuItem cutItem = new JMenuItem("Cut");
+        JMenuItem copyItem = new JMenuItem("Copy");
+        JMenuItem pasteItem = new JMenuItem("Paste");
+        JMenuItem helpItem = new JMenuItem("Help");
+        JMenuItem aboutItem = new JMenuItem("About");
+
+        /* File Menu Itmes */
+        fileMenu.add(exitItem);
+
+        /* Edit Menu Items */
+        editMenu.add(copyItem);
+        editMenu.add(cutItem);
+        editMenu.add(pasteItem);
+
+        /* Help Menu Items */
+        helpMenu.add(aboutItem);
+        helpMenu.add(helpItem);
+
+        /* Main menu Items */
+        menuBar.add(fileMenu);
+        menuBar.add(editMenu);
+        menuBar.add(helpMenu);
+
+        this.setJMenuBar(menuBar);
     }
 
     private void initEast(){
-        Dimension buttonPrefDims = new Dimension(mConstants.DIM_BUTTON_EAST_W, mConstants.DIM_BUTTON_EAST_H);
-        mPanelEast = new JPanel();
-        mPanelEast.setLayout(new GridLayout(0, 1));
-        mButtonHome = new JButton(mConstants.BUTTON_HOME);
-        mButtonHome.setPreferredSize(buttonPrefDims);
-        mButtonHome.setMaximumSize(buttonPrefDims);
-        mPanelEast.add(mButtonHome);
-        mButtonHome.addActionListener(e -> {
-            mPanelCenter = new HomePane();
-            updateCenter();
+        JPanel panelEast = new JPanel();
+        panelEast.setLayout(new MigLayout());
+        JButton buttonHome = new JButton(mConstants.BUTTON_HOME);
+        buttonHome.addActionListener(e -> {
+            JPanel panel = new HomePane();
+            updateCenter(panel);
         });
-        mButtonPlayers = new JButton(mConstants.BUTTON_PLAYERS);
-        mButtonPlayers.setPreferredSize(buttonPrefDims);
-        mButtonPlayers.setMaximumSize(buttonPrefDims);
-        mPanelEast.add(mButtonPlayers);
-        mButtonPlayers.addActionListener( e -> {
-            mPanelCenter = new PlayerPane(mDatabaseController, mConstants);
-            updateCenter();
+
+        JButton buttonPlayers = new JButton(mConstants.BUTTON_PLAYERS);
+        buttonPlayers.addActionListener( e -> {
+            JPanel panel = new PlayerPane(mDatabaseController, mConstants);
+            updateCenter(panel);
         });
-        mButtonReports = new JButton(mConstants.BUTTON_REPORTS);
-        mButtonReports.setPreferredSize(buttonPrefDims);
-        mButtonReports.setMaximumSize(buttonPrefDims);
-        mPanelEast.add(mButtonReports);
-        mButtonReports.addActionListener(e -> {
-            mPanelCenter = new ReportPane();
-            updateCenter();
+        JButton buttonReports = new JButton(mConstants.BUTTON_REPORTS);
+        buttonReports.addActionListener(e -> {
+            JPanel panel = new ReportPane();
+            updateCenter(panel);
         });
-        this.add(mPanelEast, BorderLayout.WEST);
+        JButton buttonDraft = new JButton(mConstants.BUTTON_DRAFT);
+        buttonDraft.addActionListener(e -> {
+            JPanel panel = new DraftPane(mDatabaseController, mConstants);
+            updateCenter(panel);
+        });
+        panelEast.add(buttonHome, "wrap, growx");
+        panelEast.add(buttonReports, "wrap, growx");
+        panelEast.add(buttonDraft, "wrap, growx");
+        panelEast.add(buttonPlayers, "wrap, growx");
+        add(panelEast, "west");
     }
 
-    private void updateCenter(){
-        this.add(mPanelCenter, BorderLayout.CENTER);
-        mPanelCenter.revalidate();
+    private void updateCenter(JPanel panel){
+        this.remove(mPanelCenter);
+        Dimension dim = this.getSize();
+        mPanelCenter = panel;
+        this.add(mPanelCenter, "push 200 200");
+        this.revalidate();
+        this.pack();
+        this.setSize(dim);
     }
 }

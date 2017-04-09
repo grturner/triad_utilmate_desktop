@@ -1,4 +1,4 @@
-package ultimateleague;
+package ultimateleague.view;
 
 import javax.swing.*;
 
