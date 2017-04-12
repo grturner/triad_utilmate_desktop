@@ -25,7 +25,7 @@ public class PlayerPane extends JPanel {
     public PlayerPane(DatabaseController databaseController, Constants constants){
         this.setLayout(new MigLayout("fill"));
         mLabelHeader = new JLabel(constants.PLAYER_HEADER);
-        this.add(mLabelHeader, "span");
+        this.add(mLabelHeader, "span, growx");
         mScrollPane = new JScrollPane();
         ResultSet resultSet = databaseController.getResults("SELECT * FROM Players");
         mTable = new DBTable();
@@ -34,7 +34,7 @@ public class PlayerPane extends JPanel {
         } catch (SQLException ex) {
             /* Do Something meaningful */
         }
-        this.add(mTable, "push 50");
+        this.add(mTable, "grow");
     }
 
 }

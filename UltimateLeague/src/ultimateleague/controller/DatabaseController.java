@@ -1,8 +1,6 @@
 package ultimateleague.controller;
 
-import quick.dbtable.DBTable;
 
-import java.beans.Statement;
 import java.sql.*;
 
 /**

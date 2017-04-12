@@ -20,6 +20,15 @@ public class Player implements java.io.Serializable {
     private String mVertStack;
     private String mHorizStack;
     private String mZone;
+    private String mSkill;
+
+    public String getSkill() {
+        return mSkill;
+    }
+
+    public void setSkill(String skill) {
+        mSkill = skill;
+    }
 
     public String getPlayerId() {
         return mPlayerId;

@@ -1,7 +1,6 @@
 package ultimateleague;
 
 import net.miginfocom.swing.MigLayout;
-import sun.management.snmp.jvminstr.JvmMemGCEntryImpl;
 import ultimateleague.controller.*;
 import ultimateleague.view.*;
 
@@ -26,12 +25,12 @@ public class Frame extends JFrame {
     public Frame(){
         mConstants = new Constants();
         this.setTitle(mConstants.TITLE_FRAME);
-        this.setLayout(new MigLayout("debug, nocache, hidemode 3"));
+        this.setLayout(new MigLayout("debug, nocache, fill"));
         mDatabaseController = new DatabaseController();;
         mPanelCenter = new HomePane();
         initEast();
         initMenu();
-        this.add(mPanelCenter, "span");
+        this.add(mPanelCenter, "grow");
     }
 
     private void initMenu(){
@@ -102,7 +101,7 @@ public class Frame extends JFrame {
         this.remove(mPanelCenter);
         Dimension dim = this.getSize();
         mPanelCenter = panel;
-        this.add(mPanelCenter, "push 200 200");
+        this.add(mPanelCenter, "grow");
         this.revalidate();
         this.pack();
         this.setSize(dim);
