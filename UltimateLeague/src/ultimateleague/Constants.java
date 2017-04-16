@@ -6,18 +6,20 @@ package ultimateleague;
 public class Constants {
 
     /* Frame.class Constants */
-    public String BUTTON_HOME = "Home";
-    public String BUTTON_PLAYERS = "Player View";
-    public String TITLE_FRAME = "Triad Area Ultimate League";
-    public String BUTTON_REPORTS = "Report Viewer";
-    public String BUTTON_DRAFT = "Draft Generator";
+    public final String BUTTON_HOME = "Home";
+    public final String BUTTON_PLAYERS = "Player View";
+    public final String TITLE_FRAME = "Triad Area Ultimate League";
+    public final String BUTTON_REPORTS = "Report Viewer";
+    public final String BUTTON_DRAFT = "Draft Generator";
 
 
     /* PlayerPane.class Constants */
-    public String PLAYER_HEADER = "Players";
-    public String PLAYER_LABEL_TABLE = "Table Title";
+    public final String PLAYER_HEADER = "Players";
+    public final String PLAYER_LABEL_TABLE = "Table Title";
 
     /* DraftPane.class Constants */
-    public String DRAFT_HEADER = "Draft Generator";
-
+    public final String DRAFT_HEADER = "Draft Generator";
+    public final String DRAFT_QUERY = "SELECT * FROM Players;";
+    public final String DRAFT_TEAM_NUM = "Number of Teams:";
+    public final String DRAFT_GEN_BUTTON = "Generate Draft";
 }
