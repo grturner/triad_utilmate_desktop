@@ -49,10 +49,10 @@ public class DraftPane extends JPanel {
         this.add(lblTeamNum, "growx");
         this.add(txtTeamNum, "wrap, growx");
         this.add(btnGenTeam, "span, growx");
-        mPlayers = getPlayers(databaseController, constants);
         btnGenTeam.addActionListener(actionEvent -> {
             int numTeams;
             numTeams = Integer.valueOf(txtTeamNum.getText());
+            mPlayers = getPlayers(databaseController, constants);
             mDraftArbiter = new TeamDraft(mPlayers, numTeams);
             do {}
             while (!printToFile());
@@ -88,7 +88,6 @@ public class DraftPane extends JPanel {
                         "WHERE Player_ID = " + player.getPlayerId() +";");
                 if (rs.first()){
                     playerSkill = rs.getString("Experience_Name").toUpperCase();
-                    // System.out.println("DraftPane::getPlayers - ExpName: " + playerSkill);
                 }
 
                 switch (playerSkill){
@@ -113,7 +112,6 @@ public class DraftPane extends JPanel {
                 }
 
                 player.setSkill(skill);
-                // System.out.println("DraftPane::getPlayers: " + player.toString());
                 players.add(player);
             }
         } catch (SQLException ex) {
