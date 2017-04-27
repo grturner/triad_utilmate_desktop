@@ -39,4 +39,12 @@ public class DraftTeam {
     public int getNumPlayers(){
         return mNumPlayers;
     }
+
+    public ArrayList<Player> getTeamPlayers(){
+        return mTeamPlayers;
+    }
+
+    public String toString(){
+        return "DraftTeam.class - Player Count: " + String.valueOf(mNumPlayers) + " | Average: " + String.valueOf(mAvgRank);
+    }
 }

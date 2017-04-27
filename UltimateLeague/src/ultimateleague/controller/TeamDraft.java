@@ -13,8 +13,8 @@ public class TeamDraft {
     ArrayList<DraftTeam> mDraftTeams;
 
     public TeamDraft(ArrayList<Player> playerList, int numTeams) {
-        this.mPlayerList = playerList;
-        this.mNumTeams = numTeams;
+        mPlayerList = playerList;
+        mNumTeams = numTeams;
         makeTeams();
     }
 
@@ -23,11 +23,12 @@ public class TeamDraft {
         mDraftTeams = new ArrayList<>();
 
         /* Calculate Baseline Average of Players */
-        mPlayerAvg = 0;
-        for (Player player : mPlayerList) {
-            mPlayerAvg += player.getSkill();
+        mPlayerAvg = 0.0;
+        for (int i = 0; i < mPlayerList.size(); i++) {
+            mPlayerAvg += mPlayerList.get(i).getSkill() + 0.0;
         }
-        mPlayerAvg = mPlayerAvg / mPlayerList.size();
+        mPlayerAvg = mPlayerAvg / (mPlayerList.size() + 0.0);
+        System.out.println("TeamDraft::makeTeams - mPlayerAvg = " + String.valueOf(mPlayerAvg));
 
       /* Creates the desired number of teams */
         for (int x = 0; x < mNumTeams; x++) {
@@ -40,7 +41,7 @@ public class TeamDraft {
         *   array is not empty.
          */
         teamCounter = 0;
-        while (mPlayerList.size() > 0) {
+        do {
             if (teamCounter >= mDraftTeams.size()){
                 teamCounter = 0;
             }
@@ -48,16 +49,22 @@ public class TeamDraft {
             team = mDraftTeams.get(teamCounter);
             if (team.getAvgRank() < mPlayerAvg) {
                 Player player = Collections.max(mPlayerList);
-                mPlayerList.remove(player);
                 team.addPlayer(player);
+                mPlayerList.remove(player);
             } else {
                 Player player = Collections.min(mPlayerList);
                 mPlayerList.remove(player);
                 team.addPlayer(player);
             }
             teamCounter += 1;
+        } while (mPlayerList.size() > 0);
+        for (DraftTeam team : mDraftTeams){
+            // System.out.println("TeamDraft::makeTeams - " + team.toString());
+            ArrayList<Player> players =  team.getTeamPlayers();
+            // for(Player player : players) {
+            //     System.out.println("TeamDraft::makeTeams - " + player.toString());
+            // }
         }
-
     }
 
     public ArrayList<DraftTeam> getTeams(){

@@ -17,7 +17,7 @@ public class Player implements Comparable<Player> {
 
     @Override
     public int compareTo(Player p) {
-        return Integer.compare(this.mSkill, p.getSkill());
+        return new Integer(this.getSkill()).compareTo(p.getSkill());
     }
 
     public int getSkill() {
@@ -98,6 +98,10 @@ public class Player implements Comparable<Player> {
 
     public void setBirthDate(String birthDate) {
         mBirthDate = birthDate;
+    }
+
+    public String toString(){
+        return "Player.class - " + mLastName + ", " + mFirstName + " | Skill: " + mSkill;
     }
 
 }
